@@ -1,2 +1,2 @@
 # My-projects
-Basic Projects
+Some Projects completed for professors at college using NLP and Visualization.
