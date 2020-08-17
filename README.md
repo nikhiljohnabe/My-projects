@@ -1,2 +1,2 @@
 # My-projects
-Some Projects completed for professors at college using NLP and Visualization.
+Some Projects completed for professors at college using Python and R.
