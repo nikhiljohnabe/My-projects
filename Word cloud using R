@@ -1,0 +1,54 @@
+# Word-Cloud-Using-R
+A word cloud to understand Holistic topic
+
+
+## reading file 
+df<- read.delim("file_name")
+View(df)
+
+## Install Packages 
+install.packages("wordcloud")
+install.packages("RColorBrewer")
+install.packages("wordcloud2")
+install.packages("tm")
+
+## Call The Library from Packages
+library(tm)
+library(wordcloud)
+library(RColorBrewer)
+library(wordcloud2)
+
+
+## Create a vector containing only the text
+text <- df$X0.00
+View(text)
+
+# Create a corpus  
+docs <- Corpus(VectorSource(text))
+View(docs)
+
+
+## pipeline to clean data 
+docs<-tm_map(docs,stripWhitespace)
+docs<-tm_map(docs,tolower)
+docs<-tm_map(docs,removeNumbers)
+docs<-tm_map(docs,removePunctuation)
+docs<-tm_map(docs,removeWords, stopwords("english"))
+docs <- tm_map(docs, content_transformer(tolower))
+docs <- tm_map(docs, removeWords, stopwords("english"))
+docs<-tm_map(docs, removeWords, c("can","yeah","okey","and","the","our","that","for","are","also","more","has","must","have","should","this","with","will","okay","just"))
+View(docs)
+# words that needs to be removed must be added in the "removeWords" function 
+
+## Creating Document Term Matrix
+dtm <- TermDocumentMatrix(docs) 
+matrix <- as.matrix(dtm) 
+words <- sort(rowSums(matrix),decreasing=TRUE) 
+df <- data.frame(word = names(words),freq=words)
+View(df)
+
+set.seed(1234) # for reproducibility 
+wordcloud(words = df$word, freq = df$freq, min.freq = 3,max.words=700, random.order=FALSE, rot.per=0.35,colors=brewer.pal(8, "Dark2"))
+wordcloud2(data=df, size=0.5, color='random-dark')
+
+wordcloud2(data=df, size = 0.5, shape = 'pentagon')
