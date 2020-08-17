@@ -1,0 +1,135 @@
+# Basic-Sentiment-Analysis
+A basic sentiment analysis on a conversation between US president trump and Ukraine President Zelensky
+
+
+## Import the following libararies
+
+import pandas as pd
+
+import matplotlib.pyplot as plt
+
+%matplotlib inline
+
+import nltk
+
+from nltk import word_tokenize, sent_tokenize
+
+from nltk.corpus import stopwords
+
+from nltk.stem import LancasterStemmer, WordNetLemmatizer, PorterStemmer
+
+from wordcloud import WordCloud, STOPWORDS
+
+from textblob import TextBlob
+
+import numpy as np
+
+import string
+
+import re
+
+string.punctuation
+
+
+## Reading the File 
+df= pd.read_csv(r'filepath',engine='python')
+
+## Change the reviews type to string
+df['reviews_text'] = df['reviews_text'].astype(str)
+
+## Before lowercasing 
+df['reviews_text'][2]
+
+## Lowercase all reviews
+df['reviews_text'] = df['reviews_text'].apply(lambda x: " ".join(x.lower() for x in x.split()))
+df['reviews_text'][2] ## to see the difference
+
+
+def remove_punct(text):
+    text  = "".join([char for char in text if char not in string.punctuation])
+    text = re.sub('[0-9]+', '', text)
+    return text
+
+df['reviews_text'] = df['reviews_text'].apply(lambda x: remove_punct(x))
+df.head(20)
+
+nltk.download('stopwords')
+stop = stopwords.words('english')
+df['reviews_text'] = df['reviews_text'].apply(lambda x: " ".join(x for x in x.split() if x not in stop))
+df['reviews_text'][2]
+
+# Start with one review:
+text = df.reviews_text[0]
+
+# Create and generate a word cloud image:
+wordcloud = WordCloud().generate(text)
+
+# Display the generated image:
+plt.imshow(wordcloud, interpolation='bilinear')
+plt.axis("off")
+plt.show()
+
+# lower max_font_size, change the maximum number of word and lighten the background:
+wordcloud = WordCloud(max_font_size=50, max_words=100, background_color="white").generate(text)
+plt.figure()
+plt.imshow(wordcloud, interpolation="bilinear")
+plt.axis("off")
+plt.show()
+
+ext = " ".join(review for review in df.reviews_text)
+print ("There are {} words in the combination of all review.".format(len(text)))
+
+# Create stopword list:
+stopwords = set(STOPWORDS)
+
+# Generate a word cloud image
+wordcloud = WordCloud(stopwords=stopwords, background_color="white").generate(text)
+
+# Display the generated image:
+# the matplotlib way:
+plt.imshow(wordcloud, interpolation='bilinear')
+plt.axis("off")
+plt.show()
+
+## stemming
+st = PorterStemmer()
+df['reviews_text'] = df['reviews_text'].apply(lambda x: " ".join([st.stem(word) for word in x.split()]))
+df['reviews_text'][2]
+
+## Define a function which can be applied to calculate the score for the whole dataset
+from textblob import TextBlob
+
+def sentiment_calc(text):
+    try:
+        return TextBlob(text).sentiment
+    except:
+        return None
+
+df['senti_score'] = df['reviews_text'].apply(sentiment_calc)
+df
+
+sentiment_series = df['senti_score'].tolist()
+
+columns = ['polarity', 'subjectivity']
+
+df1 = pd.DataFrame(sentiment_series, columns=columns, index=df.index)
+df1
+
+df['C'] = np.arange(len(df))
+df1['C']=np.arange(len(df))
+df1
+
+#inner join in python pandas
+df4=pd.merge(df, df1, on='C', how='left')
+
+df4.drop(["senti_score", "C"], axis = 1, inplace = True) 
+
+## df4['polarity'] = df4['polarity'].apply(lambda x: x*100)
+## df4['subjectivity'] = df4['subjectivity'].apply(lambda x: x*100)
+## df4
+
+df4['sentiment'] = ['postive'if x >= .50 else 'negative' for x in df4['polarity']] 
+
+df4
+
+df4.to_csv('C:/Users/Nikhil John Abraham/Desktop/Sentiment Analysis/Sentiment Analysis2.csv') 
