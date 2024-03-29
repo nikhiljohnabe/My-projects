@@ -35,17 +35,28 @@ Overall, the tone remains largely positive, with both leaders emphasizing cooper
 
 ## Hardware and Software Used
 Python
+
 Python Libraries: pandas, matplotlib, nltk, wordcloud, textblob
+
 Jupyter Notebook
+
 Windows 10 Machine
+
 ## Explanation of Project Files
+
 **CSV File:** Contains the conversation text and sentiment analysis results.
+
 **Jupyter Notebook:** Contains Python code for data preprocessing, sentiment analysis, and visualization.
+
 ## Future Steps
 Enhance sentiment analysis with advanced techniques.
+
 Explore sentiment trends over time.
+
 Analyze sentiment variations based on different conversation topics.
+
 Deploy sentiment analysis model for real-time monitoring.
+
 ## Conclusion
 This project provides valuable insights into the sentiment expressed in the conversation between President Trump and President Zelensky. It serves as a foundation for further analysis and can be extended to gain deeper insights into the dynamics of the conversation.
 
