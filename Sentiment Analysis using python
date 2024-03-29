@@ -32,7 +32,7 @@ string.punctuation
 
 
 ## Reading the File 
-df= pd.read_csv(r'filepath',engine='python')
+df= pd.read_csv(r'filepath',engine='python',encoding='cp1252')
 
 ## Change the reviews type to string
 df['reviews_text'] = df['reviews_text'].astype(str)
@@ -42,7 +42,7 @@ df['reviews_text'][2]
 
 ## Lowercase all reviews
 df['reviews_text'] = df['reviews_text'].apply(lambda x: " ".join(x.lower() for x in x.split()))
-df['reviews_text'][2] ## to see the difference
+df['reviews_text'][1] ## to see the difference
 
 
 def remove_punct(text):
@@ -51,7 +51,7 @@ def remove_punct(text):
     return text
 
 df['reviews_text'] = df['reviews_text'].apply(lambda x: remove_punct(x))
-df.head(20)
+
 
 nltk.download('stopwords')
 stop = stopwords.words('english')
@@ -59,7 +59,10 @@ df['reviews_text'] = df['reviews_text'].apply(lambda x: " ".join(x for x in x.sp
 df['reviews_text'][2]
 
 # Start with one review:
-text = df.reviews_text[0]
+text = df.reviews_text[1]
+
+text
+
 
 # Create and generate a word cloud image:
 wordcloud = WordCloud().generate(text)
@@ -90,6 +93,8 @@ wordcloud = WordCloud(stopwords=stopwords, background_color="white").generate(te
 plt.imshow(wordcloud, interpolation='bilinear')
 plt.axis("off")
 plt.show()
+
+
 
 ## stemming
 st = PorterStemmer()
@@ -124,12 +129,24 @@ df4=pd.merge(df, df1, on='C', how='left')
 
 df4.drop(["senti_score", "C"], axis = 1, inplace = True) 
 
-## df4['polarity'] = df4['polarity'].apply(lambda x: x*100)
-## df4['subjectivity'] = df4['subjectivity'].apply(lambda x: x*100)
-## df4
 
-df4['sentiment'] = ['postive'if x >= .50 else 'negative' for x in df4['polarity']] 
 
+# Define thresholds for sentiment classification
+positive_threshold = 0.2  # Adjust as needed
+negative_threshold = -0.2  # Adjust as needed
+
+# Classify sentiment based on polarity
+def classify_sentiment(polarity):
+    if polarity >= positive_threshold:
+        return 'positive'
+    elif polarity <= negative_threshold:
+        return 'negative'
+    else:
+        return 'neutral'
+
+# Apply sentiment classification to the DataFrame
+df4['sentiment'] = df4['polarity'].apply(classify_sentiment)
 df4
 
-df4.to_csv('path/filename.csv') 
+
+df4.to_csv(r'path/filename.csv') 
