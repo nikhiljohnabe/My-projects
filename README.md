@@ -71,7 +71,11 @@ This project provides valuable insights into the sentiment expressed in the conv
 ## Hardware and Software Used
 R
 **Libraries used**
+
 tm
+
 wordcloud
+
 RColorBrewer
+
 wordcloud2
