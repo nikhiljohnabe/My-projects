@@ -132,4 +132,4 @@ df4['sentiment'] = ['postive'if x >= .50 else 'negative' for x in df4['polarity'
 
 df4
 
-df4.to_csv('C:/Users/Nikhil John Abraham/Desktop/Sentiment Analysis/Sentiment Analysis2.csv') 
+df4.to_csv('path/filename.csv') 
