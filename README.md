@@ -49,3 +49,25 @@ Deploy sentiment analysis model for real-time monitoring.
 ## Conclusion
 This project provides valuable insights into the sentiment expressed in the conversation between President Trump and President Zelensky. It serves as a foundation for further analysis and can be extended to gain deeper insights into the dynamics of the conversation.
 
+
+
+
+
+
+
+
+------------------------------------------------------------------------------------------------
+
+# Word CLoud
+
+**Initial Year of Project :** 2020
+
+# Project Summary
+
+**Project Title:** Word Cloud
+
+**Project Description:** This project was done for a professor as a part of his work 
+
+## Hardware and Software Used
+R
+
