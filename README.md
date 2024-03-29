@@ -40,7 +40,7 @@ Jupyter Notebook
 Windows 10 Machine
 ## Explanation of Project Files
 **CSV File:** Contains the conversation text and sentiment analysis results.
-Jupyter Notebook: Contains Python code for data preprocessing, sentiment analysis, and visualization.
+**Jupyter Notebook:** Contains Python code for data preprocessing, sentiment analysis, and visualization.
 ## Future Steps
 Enhance sentiment analysis with advanced techniques.
 Explore sentiment trends over time.
